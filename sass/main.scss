@@ -1,0 +1,50 @@
+@use './variables.scss';
+
+.main{
+    // border: 2px solid yellow;
+    margin: auto;
+    padding:40px 80px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+
+    &__filtros{
+        display: flex;
+        gap: 10px;
+    }
+
+    &__titulo{
+        margin-bottom: 20px;
+    }
+
+    &__grid{
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(6, 1fr);
+    }
+
+    &__media-titulo{
+        font-weight: 600;
+        text-align: center;
+    }
+    &__media-fecha{
+        text-align: center;
+        font-size: 1.4rem;
+    }
+
+    &__media-img{
+        width:100%;
+        min-height: 170px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        background: variables.$color-btn;
+        vertical-align: top;
+    }
+
+    &__paginacion{
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+}
