@@ -12,7 +12,7 @@
         display: flex;
         gap: 10px;
     }
-
+    
     &__titulo{
         margin-bottom: 20px;
     }
@@ -20,14 +20,24 @@
     &__grid{
         display: grid;
         gap: 20px;
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(5, 1fr);
+        
+    }
+    &__main__media{
+        display: flex;
     }
 
     &__media-titulo{
         font-weight: 600;
         text-align: center;
+        margin-bottom: 4px;
     }
     &__media-fecha{
+        text-align: center;
+        font-size: 1.2rem;
+        
+    }
+    &__media-genero{
         text-align: center;
         font-size: 1.4rem;
     }
