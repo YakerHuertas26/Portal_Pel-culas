@@ -1,10 +1,13 @@
-import  {cargarGeneros,cargarDatos} from "./cargarDatos";
-import mostarDatos from "./mostrarDatos";
-// crar una función asincróna para cargar los datos de la api 
+import { peliculasPopulares } from "./cargarDatos";
+import { filtrosGeneros } from "./cargarGeneros";
+import cargarPeliculas from "./mostrarDatos";
 
-const datosPopulares= async ()=>{
-    const peliculasPopulares=await cargarDatos();
-    mostarDatos(peliculasPopulares);
+// mediante una funciión asincrona muestro los datos
+
+const cargarDatos= async ()=>{
+    const peliculas=await peliculasPopulares();
+    cargarPeliculas(peliculas);
 }
-datosPopulares();
+cargarDatos();
+filtrosGeneros();
 

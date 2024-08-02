@@ -1,23 +1,22 @@
-const contenedor= document.querySelector('#populares .main__grid')
+// creo una función para cargar y mostar los datos en el DOM 
 
-const mostarDatos= (datos)=>{
-    // recorro mi array para insertar y modificar el don 
+const contenedor= document.querySelector('#populares .main__grid');
+
+const cargarPeliculas= (datos)=>{
     datos.forEach((element) => {
-        console.log(element);
-        const pantillaHTML= `
-        <div class="main__media"> 
+        const plantillaHTML= `
+        <div class="main__media">
             <a href="#" class="main__media-thumb">
-                <img class="main__media-img" src=https://image.tmdb.org/t/p/w500/${element.
-                    backdrop_path} alt="" />
+                <img class="main__media-img" src='https://image.tmdb.org/t/p/w500/${element.backdrop_path}' alt="" />
             </a>
-            <p class="main__media-titulo">${element.title}</p>
-            <p class="main__media-genero">${element.genero} </p></p>
-            <p class="main__media-fecha">${element.release_date} </p></p>
-        `;
-    contenedor.insertAdjacentHTML('beforeend', pantillaHTML)
-    
+            <p class="main__media-titulo">${element.title} </p>
+            <p class="main__media-genero">${element.genero} </p>
+            <p class="main__media-fecha">${element.release_date} </p>    
+    `;
+        // inserta la plantilla en el contenedor 
+        contenedor.insertAdjacentHTML('beforeend',plantillaHTML);
     });
-
+    
 }
 
-export default mostarDatos;
+export default cargarPeliculas;

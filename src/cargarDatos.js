@@ -1,50 +1,46 @@
-// crear función asincrona para hace la petición a la APIde las películas/populares
+// Crear una función asincorna para realizar una petición a la API 
 
-const cargarDatos= async ()=>{
-        try {
-                
-                const url= 'https://api.themoviedb.org/3/movie/popular?api_key=c3fbcfa3f23c9ca7c1133c86f1351ca2&language=es-PER&page=1';
+const peliculasPopulares= async ()=>{
+        const url= 'https://api.themoviedb.org/3/movie/popular?api_key=c3fbcfa3f23c9ca7c1133c86f1351ca2&language=es-PER&page=1';
         
-                const respuesta=await fetch(url)  //petición al servidor
-                const datos= await respuesta.json(); //guardo los datos obtenidos de la petición 
-                const generos= await cargarGeneros();
-                const peliculasPopulares= datos.results;//guardo el array de objetos
-                
-                // itero todos el array de las peliculas para obtener todos los id de generos
-                peliculasPopulares.forEach((element) => {
-                        // console.log(element.genre_ids[0]);
-                        element.genero=obtenerGeneros(element.genre_ids[0],generos); //le añado el campo genero 
-                });
-                return peliculasPopulares;
-        } catch (error) {
-                console.log(error);
-        }
+        const peticion=await fetch(url); //consulta a la API mediante el endpoint 
+        const datos= await peticion.json(); //guardo los datos
+        const peliculas= datos.results;
+        const genero= await generosPeliculas();
+        
+
+        peliculas.forEach((element) => {
+                let generosPeliculas =ObtenerGenero(element.genre_ids[0], genero);
+
+                element.genero= generosPeliculas;
+        });
+
+        return peliculas ;
+        
 }
 
-// crear una función asincrona para cargar los generos de las peliculas
+// crea una función asincrona para obtener los géneros
+const generosPeliculas =async ()=>{
+        const url= 'https://api.themoviedb.org/3/genre/movie/list?api_key=c3fbcfa3f23c9ca7c1133c86f1351ca2&language=es';
 
-const cargarGeneros= async ()=>{
-        try {
-                
-                const url= 'https://api.themoviedb.org/3/genre/movie/list?api_key=c3fbcfa3f23c9ca7c1133c86f1351ca2&language=es';
-                const respuesta= await fetch(url);
-                const generos= await respuesta.json();
-                return generos.genres;
-        } catch (error) {
-                console.log(error);
-        }
-};
+        const peticion=await fetch(url);
+        const datos=  await peticion.json();
+        return datos.genres;
+}
 
-const obtenerGeneros=(idGeneroPeliculas,generos)=>{
+// función para optener el 1er género
+const ObtenerGenero= (idGenero, generos)=>{
         let nombreGenero;
-        generos.forEach((element)=>{
-                if (idGeneroPeliculas===element.id) {
-                        nombreGenero=element.name;  
+        generos.forEach((element) => {
+                if (idGenero===element.id) {
+                        nombreGenero=element.name;
                 }
         });
-        return nombreGenero
-}
+        return nombreGenero;
+};
 
 
-export {cargarDatos,cargarGeneros};
+export {peliculasPopulares, generosPeliculas};
+        
+                
 
