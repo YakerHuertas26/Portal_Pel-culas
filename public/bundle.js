@@ -82,20 +82,36 @@ const cargarPeliculas= (datos)=>{
     
 };
 
-const seriesTv = document.getElementById('tv');
+const filtroSeriesTv = document.getElementById('tv');
+const filtroPeliculas= document.getElementById('movie');
+
+// btn peliculas
+filtroPeliculas.addEventListener('click', async (e)=>{
+    e.preventDefault();
+    filtrosGeneros('movie');
+    const peliculas=await peliculasPopulares('movie');
+    cargarPeliculas(peliculas);
+
+    document.querySelector('#populares .main__titulo').innerText='Peliculas Populares';
+
+    filtroSeriesTv.classList.remove('btn--active');
+    filtroPeliculas.classList.add('btn--active');
+});
 
 
-seriesTv.addEventListener('click',async (e)=>{
+
+// btn series
+filtroSeriesTv.addEventListener('click',async (e)=>{
     e.preventDefault();
     filtrosGeneros('tv');
 
-        const series=await peliculasPopulares('tv');
-        cargarSeries(series);
-        console.log(series);
-        
-        
+    const series=await peliculasPopulares('tv');
+    cargarSeries(series);
 
-    
+    document.querySelector('#populares .main__titulo').innerText='Series Populares';
+
+    filtroPeliculas.classList.remove('btn--active');
+    filtroSeriesTv.classList.add('btn--active');
 });
 
 const cargarSeries= (datos)=>{
