@@ -65,7 +65,7 @@ const filtrosGeneros= async (tipo)=>{
 const contenedor= document.querySelector('#populares .main__grid');
 
 const cargarPeliculas= (datos)=>{
-    
+    contenedor.innerHTML='';
     datos.forEach((element) => {
         const plantillaHTML= `
         <div class="main__media">
@@ -135,6 +135,21 @@ const cargarSeries= (datos)=>{
     });
     
 };
+
+const filtrosContenedor= document.getElementById('filtro-generos');
+
+filtrosContenedor.addEventListener('click',(e)=>{
+    e.preventDefault();
+
+    if (e.target.closest('button')) {
+        // si existe un btn con la clase activa lo elimino
+        filtrosContenedor.querySelector('.btn--active')?.classList.remove('btn--active');
+
+        // activo la clase activo 
+        e.target.classList.add('btn--active');
+        
+    }
+});
 
 // mediante una funciión asincrona muestro los datos
 
