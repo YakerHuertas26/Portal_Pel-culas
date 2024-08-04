@@ -3,6 +3,7 @@
 const contenedor= document.querySelector('#populares .main__grid');
 
 const cargarPeliculas= (datos)=>{
+    
     datos.forEach((element) => {
         const plantillaHTML= `
         <div class="main__media">

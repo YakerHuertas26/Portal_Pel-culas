@@ -2,8 +2,9 @@ import { generosPeliculas } from "./cargarDatos";
 
 const contenedorFiltroGenero= document.querySelector('#filtro-generos')
 
-const filtrosGeneros= async ()=>{
-    const genero= await generosPeliculas();
+const filtrosGeneros= async (tipo)=>{
+    const genero= await generosPeliculas(tipo);
+    contenedorFiltroGenero.innerHTML=''
     genero.forEach(element => {
         const btn= document.createElement('button');
         btn.classList.add('btn');

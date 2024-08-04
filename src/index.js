@@ -1,13 +1,15 @@
 import { peliculasPopulares } from "./cargarDatos";
 import { filtrosGeneros } from "./cargarGeneros";
 import cargarPeliculas from "./mostrarDatos";
+import './cargarSeries_Peliculas.js'
 
 // mediante una funciión asincrona muestro los datos
 
 const cargarDatos= async ()=>{
-    const peliculas=await peliculasPopulares();
+    const peliculas=await peliculasPopulares('movie');
     cargarPeliculas(peliculas);
+    filtrosGeneros('movie');
+
 }
 cargarDatos();
-filtrosGeneros();
 
