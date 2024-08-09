@@ -5,6 +5,7 @@ import './cargarSeries_Peliculas.js';
 import './filtros.js';
 import './btnFiltar.js'
 import './cargarDatosFiltros.js'
+import './paginacion.js';
 
 // mediante una funciión asincrona muestro los datos
 

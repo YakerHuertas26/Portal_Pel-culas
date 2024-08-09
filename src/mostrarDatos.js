@@ -8,7 +8,7 @@ const cargarPeliculas= (datos)=>{
         // genero undefile
         const nuevoGenero1= element.genero===undefined? '':element.genero;
         const nuevoGenero2= element.genero1===undefined? '':element.genero1;
-        const nuevoGenero3= element.genero2===undefined? '':element.genero1;
+        const nuevoGenero3= element.genero2===undefined? '':element.genero2;
         
         const plantillaHTML= `
         <div class="main__media">

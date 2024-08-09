@@ -27,7 +27,6 @@ filtroSeriesTv.addEventListener('click',async (e)=>{
 
     const series=await peliculasPopulares('tv');
     cargarPeliculas(series)
-    console.log(series);
     
 
     document.querySelector('#populares .main__titulo').innerText='Series Populares'

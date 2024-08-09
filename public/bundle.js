@@ -2,10 +2,10 @@
 
 // Crear una función asincorna para realizar una petición a la API 
 
-const peliculasPopulares= async (tipo='movie')=>{
+const peliculasPopulares= async (tipo='movie', pagina=1)=>{
         const filtro= tipo==='movie'?'movie':'tv';
 
-        const url= `https://api.themoviedb.org/3/${filtro}/popular?api_key=c3fbcfa3f23c9ca7c1133c86f1351ca2&language=es-PER&page=1`;
+        const url= `https://api.themoviedb.org/3/${filtro}/popular?api_key=c3fbcfa3f23c9ca7c1133c86f1351ca2&language=es-PER&page=${pagina}`;
         
         const peticion=await fetch(url); //consulta a la API mediante el endpoint 
         const datos= await peticion.json(); //guardo los datos
@@ -74,7 +74,7 @@ const cargarPeliculas= (datos)=>{
         // genero undefile
         const nuevoGenero1= element.genero===undefined? '':element.genero;
         const nuevoGenero2= element.genero1===undefined? '':element.genero1;
-        const nuevoGenero3= element.genero2===undefined? '':element.genero1;
+        const nuevoGenero3= element.genero2===undefined? '':element.genero2;
         
         const plantillaHTML= `
         <div class="main__media">
@@ -121,7 +121,6 @@ filtroSeriesTv.addEventListener('click',async (e)=>{
 
     const series=await peliculasPopulares('tv');
     cargarPeliculas(series);
-    console.log(series);
     
 
     document.querySelector('#populares .main__titulo').innerText='Series Populares';
@@ -167,19 +166,18 @@ filtrosContenedor.addEventListener('click',(e)=>{
     }
 });
 
-const cargandoDatosFiltros = async ()=>{
-    const opcionFiltro= (document.querySelector('.main__filtros .btn--active')).id;
+const cargandoDatosFiltros = async (pagina=1)=>{
+    const opcionFiltro= document.querySelector('.main__filtros .btn--active').id;
     const generoIdFiltro=document.querySelector('#filtro-generos .btn--active')?.dataset.id;
     const fechaInicio= document.getElementById('años-min').value ||1950;
     const fechaMax= document.getElementById('años-max').value || 2024;
     
-
     let url;
     if (opcionFiltro==='movie') {
-        url= `https://api.themoviedb.org/3/discover/movie?api_key=c3fbcfa3f23c9ca7c1133c86f1351ca2&include_adult=false&include_video=false&language=es-PER&page=1&region=PER&release_date.gte=${fechaInicio}&release_date.lte=${fechaMax}&sort_by=popularity.desc&with_genres=${generoIdFiltro}`;
+        url= `https://api.themoviedb.org/3/discover/movie?api_key=c3fbcfa3f23c9ca7c1133c86f1351ca2&include_adult=false&include_video=false&language=es-PER&page=${pagina}&region=PER&release_date.gte=${fechaInicio}&release_date.lte=${fechaMax}&sort_by=popularity.desc&with_genres=${generoIdFiltro}`;
     }
     else if(opcionFiltro==='tv'){
-        url=`https://api.themoviedb.org/3/discover/tv?api_key=c3fbcfa3f23c9ca7c1133c86f1351ca2&first_air_date.gte=${fechaInicio}&first_air_date.lte=${fechaMax}&include_adult=false&include_null_first_air_dates=false&language=es-PER&page=1&sort_by=popularity.desc&with_genres=${generoIdFiltro}`;
+        url=`https://api.themoviedb.org/3/discover/tv?api_key=c3fbcfa3f23c9ca7c1133c86f1351ca2&first_air_date.gte=${fechaInicio}&first_air_date.lte=${fechaMax}&include_adult=false&include_null_first_air_dates=false&language=es-PER&page=${pagina}&sort_by=popularity.desc&with_genres=${generoIdFiltro}`;
     }
 
     try {
@@ -196,6 +194,7 @@ const cargandoDatosFiltros = async ()=>{
             element.genero= generosPeliculas;
             element.genero1= generosPeliculas1;
         });
+        
         return peliculas ;
         
         
@@ -212,6 +211,36 @@ const btnFiltro= document.getElementById('btn-buscar');
 btnFiltro.addEventListener('click',async (e)=>{
     const datosFiltro= await cargandoDatosFiltros();
     cargarPeliculas(datosFiltro);
+});
+
+document.getElementById('pagina-anterior');
+const siguiente = document.getElementById('pagina-siguiente');
+
+
+siguiente.addEventListener('click',async (e)=>{
+    const paginaActual= document.getElementById('populares').dataset.pagina;
+
+    const opcionFiltro= document.querySelector('#filtro-generos .btn--active')?.dataset.id;
+    try {
+        const datos= await peliculasPopulares(opcionFiltro,(parseInt(paginaActual)+1));
+
+        document.getElementById('populares').setAttribute('data-pagina',parseInt(paginaActual)+1);
+        
+        if (!opcionFiltro) {
+            // cargo por peliculas o series
+        cargarPeliculas(datos);
+        window.scrollTo(0,0);
+            
+        }
+        else {
+            const porFiltro= await cargandoDatosFiltros(paginaActual+1);
+        cargarPeliculas(porFiltro);
+        window.scrollTo(0,0);
+        }
+        
+    } catch (error) {
+        
+    }
 });
 
 // mediante una funciión asincrona muestro los datos
