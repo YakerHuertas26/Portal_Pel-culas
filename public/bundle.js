@@ -15,8 +15,12 @@ const peliculasPopulares= async (tipo='movie')=>{
 
         peliculas.forEach((element) => {
                 let generosPeliculas =ObtenerGenero(element.genre_ids[0], genero);
+                let generosPeliculas1 =ObtenerGenero(element.genre_ids[1], genero);
+                let generosPeliculas2 =ObtenerGenero(element.genre_ids[2], genero);
 
                 element.genero= generosPeliculas;
+                element.genero1= generosPeliculas1;
+                element.genero2= generosPeliculas2;
         });
 
         return peliculas ;
@@ -67,14 +71,24 @@ const contenedor= document.querySelector('#populares .main__grid');
 const cargarPeliculas= (datos)=>{
     contenedor.innerHTML='';
     datos.forEach((element) => {
+        // genero undefile
+        const nuevoGenero1= element.genero===undefined? '':element.genero;
+        const nuevoGenero2= element.genero1===undefined? '':element.genero1;
+        const nuevoGenero3= element.genero2===undefined? '':element.genero1;
+        
         const plantillaHTML= `
         <div class="main__media">
             <a href="#" class="main__media-thumb">
                 <img class="main__media-img" src='https://image.tmdb.org/t/p/w500/${element.backdrop_path}' alt="" />
             </a>
-            <p class="main__media-titulo">${element.title} </p>
-            <p class="main__media-genero">${element.genero} </p>
-            <p class="main__media-fecha">${element.release_date} </p>    
+            <p class="main__media-titulo">${element.title||element.name} </p>
+            <div class='main__mediaGenero'>
+                <p class="main__media-genero">${nuevoGenero1} </p>
+                <p class="main__media-genero">${nuevoGenero2} </p>
+                <p class="main__media-genero">${nuevoGenero3} </p>
+            </div>
+            <p class="main__media-fecha">${element.release_date||element.first_air_date} </p>
+        </div>        
     `;
         // inserta la plantilla en el contenedor 
         contenedor.insertAdjacentHTML('beforeend',plantillaHTML);
@@ -106,7 +120,9 @@ filtroSeriesTv.addEventListener('click',async (e)=>{
     filtrosGeneros('tv');
 
     const series=await peliculasPopulares('tv');
-    cargarSeries(series);
+    cargarPeliculas(series);
+    console.log(series);
+    
 
     document.querySelector('#populares .main__titulo').innerText='Series Populares';
 
@@ -114,27 +130,27 @@ filtroSeriesTv.addEventListener('click',async (e)=>{
     filtroSeriesTv.classList.add('btn--active');
 });
 
-const cargarSeries= (datos)=>{
-    const contenedor= document.querySelector('#populares .main__grid');
-    contenedor.innerHTML=''; 
-    datos.forEach((element) => {
-        const genero= element.genero===undefined ?'...':element.genero;
+// const cargarSeries= (datos)=>{
+//     const contenedor= document.querySelector('#populares .main__grid');
+//     contenedor.innerHTML=''; 
+//     datos.forEach((element) => {
+//         const genero= element.genero===undefined ?'...':element.genero;
         
-        const plantillaHTML= `
-        <div class="main__media">
-            <a href="#" class="main__media-thumb">
-                <img class="main__media-img" src='https://image.tmdb.org/t/p/w500/${element.backdrop_path}' alt="" />
-            </a>
-            <p class="main__media-titulo">${element.name} </p>
-            <p class="main__media-genero">${genero} </p>
-            <p class="main__media-fecha">${element.first_air_date
-            } </p>    
-    `;
-        // inserta la plantilla en el contenedor 
-        contenedor.insertAdjacentHTML('beforeend',plantillaHTML);
-    });
+//         const plantillaHTML= `
+//         <div class="main__media">
+//             <a href="#" class="main__media-thumb">
+//                 <img class="main__media-img" src='https://image.tmdb.org/t/p/w500/${element.backdrop_path}' alt="" />
+//             </a>
+//             <p class="main__media-titulo">${element.name} </p>
+//             <p class="main__media-genero">${genero} </p>
+//             <p class="main__media-fecha">${element.first_air_date
+//             } </p>    
+//     `;
+//         // inserta la plantilla en el contenedor 
+//         contenedor.insertAdjacentHTML('beforeend',plantillaHTML);
+//     });
     
-};
+// }
 
 const filtrosContenedor= document.getElementById('filtro-generos');
 
@@ -149,6 +165,53 @@ filtrosContenedor.addEventListener('click',(e)=>{
         e.target.classList.add('btn--active');
         
     }
+});
+
+const cargandoDatosFiltros = async ()=>{
+    const opcionFiltro= (document.querySelector('.main__filtros .btn--active')).id;
+    const generoIdFiltro=document.querySelector('#filtro-generos .btn--active')?.dataset.id;
+    const fechaInicio= document.getElementById('años-min').value ||1950;
+    const fechaMax= document.getElementById('años-max').value || 2024;
+    
+
+    let url;
+    if (opcionFiltro==='movie') {
+        url= `https://api.themoviedb.org/3/discover/movie?api_key=c3fbcfa3f23c9ca7c1133c86f1351ca2&include_adult=false&include_video=false&language=es-PER&page=1&region=PER&release_date.gte=${fechaInicio}&release_date.lte=${fechaMax}&sort_by=popularity.desc&with_genres=${generoIdFiltro}`;
+    }
+    else if(opcionFiltro==='tv'){
+        url=`https://api.themoviedb.org/3/discover/tv?api_key=c3fbcfa3f23c9ca7c1133c86f1351ca2&first_air_date.gte=${fechaInicio}&first_air_date.lte=${fechaMax}&include_adult=false&include_null_first_air_dates=false&language=es-PER&page=1&sort_by=popularity.desc&with_genres=${generoIdFiltro}`;
+    }
+
+    try {
+        const respuesta=await fetch(url);
+        const datos= await respuesta.json();
+        const peliculas= datos.results;
+        const genero= await generosPeliculas();
+
+        peliculas.forEach((element) => {
+            let generosPeliculas =ObtenerGenero(element.genre_ids[0], genero);
+            let generosPeliculas1 =ObtenerGenero(element.genre_ids[1], genero);
+            
+
+            element.genero= generosPeliculas;
+            element.genero1= generosPeliculas1;
+        });
+        return peliculas ;
+        
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+    
+    
+};
+
+const btnFiltro= document.getElementById('btn-buscar');
+
+btnFiltro.addEventListener('click',async (e)=>{
+    const datosFiltro= await cargandoDatosFiltros();
+    cargarPeliculas(datosFiltro);
 });
 
 // mediante una funciión asincrona muestro los datos

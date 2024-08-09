@@ -13,8 +13,12 @@ const peliculasPopulares= async (tipo='movie')=>{
 
         peliculas.forEach((element) => {
                 let generosPeliculas =ObtenerGenero(element.genre_ids[0], genero);
+                let generosPeliculas1 =ObtenerGenero(element.genre_ids[1], genero);
+                let generosPeliculas2 =ObtenerGenero(element.genre_ids[2], genero);
 
                 element.genero= generosPeliculas;
+                element.genero1= generosPeliculas1;
+                element.genero2= generosPeliculas2;
         });
 
         return peliculas ;
@@ -44,7 +48,7 @@ const ObtenerGenero= (idGenero, generos)=>{
 };
 
 
-export {peliculasPopulares, generosPeliculas};
+export {peliculasPopulares, generosPeliculas, ObtenerGenero};
         
                 
 

@@ -26,7 +26,9 @@ filtroSeriesTv.addEventListener('click',async (e)=>{
     filtrosGeneros('tv');
 
     const series=await peliculasPopulares('tv');
-    cargarSeries(series);
+    cargarPeliculas(series)
+    console.log(series);
+    
 
     document.querySelector('#populares .main__titulo').innerText='Series Populares'
 
@@ -34,25 +36,25 @@ filtroSeriesTv.addEventListener('click',async (e)=>{
     filtroSeriesTv.classList.add('btn--active')
 });
 
-const cargarSeries= (datos)=>{
-    const contenedor= document.querySelector('#populares .main__grid');
-    contenedor.innerHTML=''; 
-    datos.forEach((element) => {
-        const genero= element.genero===undefined ?'...':element.genero;
+// const cargarSeries= (datos)=>{
+//     const contenedor= document.querySelector('#populares .main__grid');
+//     contenedor.innerHTML=''; 
+//     datos.forEach((element) => {
+//         const genero= element.genero===undefined ?'...':element.genero;
         
-        const plantillaHTML= `
-        <div class="main__media">
-            <a href="#" class="main__media-thumb">
-                <img class="main__media-img" src='https://image.tmdb.org/t/p/w500/${element.backdrop_path}' alt="" />
-            </a>
-            <p class="main__media-titulo">${element.name} </p>
-            <p class="main__media-genero">${genero} </p>
-            <p class="main__media-fecha">${element.first_air_date
-            } </p>    
-    `;
-        // inserta la plantilla en el contenedor 
-        contenedor.insertAdjacentHTML('beforeend',plantillaHTML);
-    });
+//         const plantillaHTML= `
+//         <div class="main__media">
+//             <a href="#" class="main__media-thumb">
+//                 <img class="main__media-img" src='https://image.tmdb.org/t/p/w500/${element.backdrop_path}' alt="" />
+//             </a>
+//             <p class="main__media-titulo">${element.name} </p>
+//             <p class="main__media-genero">${genero} </p>
+//             <p class="main__media-fecha">${element.first_air_date
+//             } </p>    
+//     `;
+//         // inserta la plantilla en el contenedor 
+//         contenedor.insertAdjacentHTML('beforeend',plantillaHTML);
+//     });
     
-}
+// }
 
