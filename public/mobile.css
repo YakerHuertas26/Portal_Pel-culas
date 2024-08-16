@@ -1,0 +1,55 @@
+.contenedor{
+    display: grid;
+    grid-template-areas: 
+    "sidebar sidebar"
+    "main main";
+    ;
+}
+.sidebar{
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+.sidebar__contenedor{
+    display: none;
+}
+.sidebar__contenedor--active{
+    display: block;
+}
+.sidebar__buscar{
+    width: 160px;
+    margin-bottom: 20px;
+}
+.sidebar__años{
+    display: none;
+}
+.main{
+    grid-area: main;
+    min-width: 290px;
+    width: 98%;
+    padding: 5px 10px;
+}
+.main__grid{
+    grid-template-columns: repeat(2,1fr);
+    gap: 8px;
+    padding-left: 8px;
+}
+.main__filtros{
+    align-items: center;
+    justify-content: center;
+}
+.main__populares{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.main__media{
+    width: 90%;
+}
+main__media-img{
+    width: 80%;
+}
