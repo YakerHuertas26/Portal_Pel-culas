@@ -299,7 +299,8 @@ contenedor.addEventListener('click',async (e)=>{
                 <div class="media__info">
                     <h1 class="media__titulo">${datos.title||datos.name}</h1>
                     <p class="media__fecha">${datos.release_date ||datos.first_air_date}</p>
-                    <p class="media__overview">${datos.overview}</p>
+                    <div class="overview"><p class="media__overview">${datos.overview}</p> </div>
+                    
                 </div>
                 <button class="media__btn" id='cerrar'>
                     <svg

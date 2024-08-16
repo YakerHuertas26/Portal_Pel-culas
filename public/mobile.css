@@ -59,7 +59,7 @@ main__media-img{
     justify-content: center;
     align-items: center;
     width: 90%;
-    height: 80%;
+    height: 90%;
 }
 .media__imagen{
     width: 60%;
@@ -74,15 +74,18 @@ main__media-img{
     flex-direction: column;
     gap: 4px;
     font-size: 1.6rem;
+    overflow: auto;
 }
 .media__overview{
-    font-size: 1.6rem;
-    line-height: 2rem;
-    letter-spacing:0.08rem;
-    overflow: auto;
-    
+    font-size: 1.2rem;
+    line-height: 1.8rem;
+    letter-spacing:0.08rem;   
 }
 .media__fecha{
     font-size: 1.4rem;
     margin-bottom: 4px;
+}
+.overview{
+    height: auto;
+    overflow: auto;
 }
