@@ -66,10 +66,10 @@ const filtrosGeneros= async (tipo)=>{
 
 // creo una función para cargar y mostar los datos en el DOM 
 
-const contenedor= document.querySelector('#populares .main__grid');
+const contenedor$1= document.querySelector('#populares .main__grid');
 
 const cargarPeliculas= (datos)=>{
-    contenedor.innerHTML='';
+    contenedor$1.innerHTML='';
     datos.forEach((element) => {
         // genero undefile
         const nuevoGenero1= element.genero===undefined? '':element.genero;
@@ -77,7 +77,7 @@ const cargarPeliculas= (datos)=>{
         const nuevoGenero3= element.genero2===undefined? '':element.genero2;
         
         const plantillaHTML= `
-        <div class="main__media">
+        <div class="main__media" data-id=${element.id}>
             <a href="#" class="main__media-thumb">
                 <img class="main__media-img" src='https://image.tmdb.org/t/p/w500/${element.backdrop_path}' alt="" />
             </a>
@@ -91,7 +91,8 @@ const cargarPeliculas= (datos)=>{
         </div>        
     `;
         // inserta la plantilla en el contenedor 
-        contenedor.insertAdjacentHTML('beforeend',plantillaHTML);
+        contenedor$1.insertAdjacentHTML('beforeend',plantillaHTML);
+        
     });
     
 };
@@ -211,6 +212,7 @@ const btnFiltro= document.getElementById('btn-buscar');
 btnFiltro.addEventListener('click',async (e)=>{
     const datosFiltro= await cargandoDatosFiltros();
     cargarPeliculas(datosFiltro);
+    window.scrollTo(0,0);
 });
 
 document.getElementById('pagina-anterior');
@@ -240,6 +242,90 @@ siguiente.addEventListener('click',async (e)=>{
         
     } catch (error) {
         
+    }
+});
+
+const contenedor = document.querySelector('.main__grid');
+
+
+const media= document.getElementById('media');
+
+contenedor.addEventListener('click',async (e)=>{
+    
+    if (e.target.closest('.main__media')) {
+        const dataID= e.target.closest('.main__media').dataset.id;
+        
+        media.classList.add('media--active');
+
+        const datos =await peticionSeleccion(dataID);
+        
+        
+        const plantillaHTML= `
+        <div class="media__contenedor">
+                <div class="media__backdrop">
+                <img
+                        src="https://image.tmdb.org/t/p/w500//${datos.backdrop_path}"
+                class="media__backdrop-image"
+                />
+                </div>
+            <div class="media__imagen">
+                    <img
+                        src="https://image.tmdb.org/t/p/w500//${datos.poster_path}"
+                        class="media__poster"
+                    />
+                </div>
+                <div class="media__info">
+                    <h1 class="media__titulo">${datos.title}</h1>
+                    <p class="media__fecha">${datos.release_date}</p>
+                    <p class="media__overview">${datos.overview}</p>
+                </div>
+                <button class="media__btn" id='cerrar'>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                        class="media__btn-icono"
+                    >
+                        <path
+                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"
+                        />
+                    </svg>
+                </button>
+            </div>
+        `;
+        media.innerHTML=plantillaHTML;
+        document.body.style.overflow='hidden';
+        
+    } 
+
+});
+
+
+const peticionSeleccion= async(id)=>{
+    try {
+        const tipoFiltro= document.querySelector('.main__filtros .btn--active').id;
+    const url= `https://api.themoviedb.org/3/${tipoFiltro}/${id}?api_key=c3fbcfa3f23c9ca7c1133c86f1351ca2&language=es-PER`;
+
+    const peticion= await fetch (url);
+    const datos= await peticion.json();
+
+    
+    return datos;
+    } catch (error) {
+        console.log(error);
+        
+    }
+    
+};
+
+const btnCerrar= document.getElementById('media');
+
+btnCerrar.addEventListener('click',(e)=>{
+    if (e.target.closest('button')) {
+        btnCerrar.classList.remove('media--active'); 
+        document.body.style.overflow='auto';
     }
 });
 

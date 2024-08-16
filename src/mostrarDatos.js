@@ -11,7 +11,7 @@ const cargarPeliculas= (datos)=>{
         const nuevoGenero3= element.genero2===undefined? '':element.genero2;
         
         const plantillaHTML= `
-        <div class="main__media">
+        <div class="main__media" data-id=${element.id}>
             <a href="#" class="main__media-thumb">
                 <img class="main__media-img" src='https://image.tmdb.org/t/p/w500/${element.backdrop_path}' alt="" />
             </a>
@@ -26,6 +26,7 @@ const cargarPeliculas= (datos)=>{
     `;
         // inserta la plantilla en el contenedor 
         contenedor.insertAdjacentHTML('beforeend',plantillaHTML);
+        
     });
     
 }
