@@ -1,0 +1,9 @@
+.main__grid{
+    grid-template-columns: repeat(4,1fr);
+    gap: 8px;
+    padding-left: 8px;
+}
+.main{
+    width: 98%;
+    padding: 40px 10px;
+}
