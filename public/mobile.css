@@ -73,13 +73,13 @@ main__media-img{
     display: flex;
     flex-direction: column;
     gap: 4px;
-    font-size: 1.2rem;
+    font-size: 1.6rem;
 }
 .media__overview{
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     line-height: 1.6rem;
 }
 .media__fecha{
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     margin-bottom: 4px;
 }
