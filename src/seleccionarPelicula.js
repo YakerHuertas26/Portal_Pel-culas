@@ -11,7 +11,6 @@ contenedor.addEventListener('click',async (e)=>{
         media.classList.add('media--active')
 
         const datos =await peticionSeleccion(dataID);
-        console.log(datos);
         
         
         const plantillaHTML= `

@@ -59,6 +59,7 @@ main__media-img{
     justify-content: center;
     align-items: center;
     width: 90%;
+    height: 80%;
 }
 .media__imagen{
     width: 70%;
@@ -67,5 +68,16 @@ main__media-img{
     width: 100%;
 }
 .media__info{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
     font-size: 1.2rem;
+}
+.media__overview{
+    font-size: 1rem;
+    line-height: 1.2rem;
+}
+.media__fecha{
+    font-size: 1.2rem;
+    margin-bottom: 4px;
 }
