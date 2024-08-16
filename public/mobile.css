@@ -63,7 +63,7 @@ main__media-img{
 }
 .media__imagen{
     width: 50%;
-    height: 70%;
+    height: 40%;
 }
 .media__poster{
     width: 100%;
@@ -77,7 +77,7 @@ main__media-img{
     overflow: auto;
 }
 .media__overview{
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     line-height: 1.5rem;
     letter-spacing:0.04rem;   
 }
