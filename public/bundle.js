@@ -279,6 +279,7 @@ contenedor.addEventListener('click',async (e)=>{
         media.classList.add('media--active');
 
         const datos =await peticionSeleccion(dataID);
+        console.log(datos);
         
         
         const plantillaHTML= `
@@ -296,8 +297,8 @@ contenedor.addEventListener('click',async (e)=>{
                     />
                 </div>
                 <div class="media__info">
-                    <h1 class="media__titulo">${datos.title}</h1>
-                    <p class="media__fecha">${datos.release_date}</p>
+                    <h1 class="media__titulo">${datos.title||datos.name}</h1>
+                    <p class="media__fecha">${datos.release_date ||datos.first_air_date}</p>
                     <p class="media__overview">${datos.overview}</p>
                 </div>
                 <button class="media__btn" id='cerrar'>

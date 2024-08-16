@@ -53,3 +53,19 @@
 main__media-img{
     width: 80%;
 }
+.media__contenedor{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+}
+.media__imagen{
+    width: 70%;
+}
+.media__poster{
+    width: 100%;
+}
+.media__info{
+    font-size: 1.2rem;
+}
