@@ -18,6 +18,7 @@
     &__contenedor{
         background: variables.$color-fondo;
         width:90%;
+        height: auto;
         max-width: 800px;
         padding: 40px;
         border-radius: 10px;
@@ -75,6 +76,7 @@
     }
     &__overview{
         line-height: 2.8rem;
+        font-size: 1.4rem;
     }
     
 

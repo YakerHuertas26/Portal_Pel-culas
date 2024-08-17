@@ -4,7 +4,6 @@
 
 const peliculasPopulares= async (tipo='movie', pagina=1)=>{
         const filtro= tipo==='movie'?'movie':'tv';
-
         const url= `https://api.themoviedb.org/3/${filtro}/popular?api_key=c3fbcfa3f23c9ca7c1133c86f1351ca2&language=es-PER&page=${pagina}`;
         
         const peticion=await fetch(url); //consulta a la API mediante el endpoint 
@@ -99,9 +98,11 @@ const cargarPeliculas= (datos)=>{
 
 const filtroSeriesTv = document.getElementById('tv');
 const filtroPeliculas= document.getElementById('movie');
+const pagina= document.getElementById('populares');
 
 // btn peliculas
 filtroPeliculas.addEventListener('click', async (e)=>{
+    pagina.setAttribute('data-pagina',1);
     e.preventDefault();
     filtrosGeneros('movie');
     const peliculas=await peliculasPopulares('movie');
@@ -117,6 +118,7 @@ filtroPeliculas.addEventListener('click', async (e)=>{
 
 // btn series
 filtroSeriesTv.addEventListener('click',async (e)=>{
+    pagina.setAttribute('data-pagina',1);
     e.preventDefault();
     filtrosGeneros('tv');
 
@@ -214,42 +216,46 @@ const btnFiltro= document.getElementById('btn-buscar');
 
 btnFiltro.addEventListener('click',async (e)=>{
     const generoActivo= document.querySelector('#filtro-generos .btn--active');
-    const contendorBusqueda= document.querySelector('.sidebar__contenedor');
-
-    if (generoActivo) {
-        const datosFiltro= await cargandoDatosFiltros();
+    const contendorBusqueda= document.querySelector('.sidebar__contenedor--active');
+    
+    if (generoActivo) {     
+    const datosFiltro= await cargandoDatosFiltros();
     cargarPeliculas(datosFiltro);
     window.scrollTo(0,0);
     }
-    if (contendorBusqueda) {
-        contendorBusqueda.classList.add('sidebar__contenedor--active');
+    if (!contendorBusqueda) {
+        console.log('no');
+        
+        document.querySelector('.sidebar__contenedor').classList.add('sidebar__contenedor--active');
         if (generoActivo) {
         const datosFiltro= await cargandoDatosFiltros();
-    cargarPeliculas(datosFiltro);
-    window.scrollTo(0,0);
-
-    setTimeout(()=>{
-        contendorBusqueda.classList.remove('sidebar__contenedor--active');
-    },500);
+        cargarPeliculas(datosFiltro);
+        window.scrollTo(0,0);
+        } 
+    } 
+    if (contendorBusqueda) {
+        document.querySelector('.sidebar__contenedor').classList.remove('sidebar__contenedor--active');
+    }  
     
-    }
-        }
 });
 
-document.getElementById('pagina-anterior');
+const anterior=  document.getElementById('pagina-anterior');
 const siguiente = document.getElementById('pagina-siguiente');
+
+
+
 
 
 siguiente.addEventListener('click',async (e)=>{
     const paginaActual= document.getElementById('populares').dataset.pagina;
-
-    const opcionFiltro= document.querySelector('#filtro-generos .btn--active')?.dataset.id;
+    const opcionGenero= document.querySelector('#filtro-generos .btn--active')?.dataset.id;
+    const opcionFiltro= document.querySelector('.main__filtros .btn--active').id;
     try {
         const datos= await peliculasPopulares(opcionFiltro,(parseInt(paginaActual)+1));
 
         document.getElementById('populares').setAttribute('data-pagina',parseInt(paginaActual)+1);
         
-        if (!opcionFiltro) {
+        if (!opcionGenero) {
             // cargo por peliculas o series
         cargarPeliculas(datos);
         window.scrollTo(0,0);
@@ -265,6 +271,38 @@ siguiente.addEventListener('click',async (e)=>{
         console.log(error);
         
     }
+});
+
+anterior.addEventListener('click',async (e)=>{
+    const paginaActual= document.getElementById('populares').dataset.pagina;
+    const opcionFiltro= document.querySelector('.main__filtros .btn--active').id;
+    const opcionGenero= document.querySelector('#filtro-generos .btn--active ')?.dataset.id;
+
+    if (parseInt(paginaActual)>1) {
+        try {
+            const datos= await peliculasPopulares(opcionFiltro,(parseInt(paginaActual)-1));
+    
+            document.getElementById('populares').setAttribute('data-pagina',parseInt(paginaActual)-1);
+            
+            if (!opcionGenero) {
+                // cargo por peliculas o series
+            cargarPeliculas(datos);
+            window.scrollTo(0,0);
+                
+            }
+            else {
+                const porFiltro= await cargandoDatosFiltros(paginaActual-1);
+            cargarPeliculas(porFiltro);
+            window.scrollTo(0,0);
+            }
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+    
+    
 });
 
 const contenedor = document.querySelector('.main__grid');

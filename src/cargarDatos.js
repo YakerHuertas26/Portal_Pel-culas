@@ -2,7 +2,6 @@
 
 const peliculasPopulares= async (tipo='movie', pagina=1)=>{
         const filtro= tipo==='movie'?'movie':'tv'
-
         const url= `https://api.themoviedb.org/3/${filtro}/popular?api_key=c3fbcfa3f23c9ca7c1133c86f1351ca2&language=es-PER&page=${pagina}`;
         
         const peticion=await fetch(url); //consulta a la API mediante el endpoint 

@@ -78,7 +78,7 @@ main__media-img{
 }
 .media__overview{
     font-size: 1.5rem;
-    line-height: 1.5rem;
+    line-height: 1.8rem;
     letter-spacing:0.04rem;   
 }
 .media__fecha{
@@ -88,4 +88,7 @@ main__media-img{
 .overview{
     height: auto;
     overflow: auto;
+}
+.main__filtros{
+    margin-top: 10px;
 }

@@ -4,9 +4,11 @@ import cargarPeliculas from "./mostrarDatos";
 
 const filtroSeriesTv = document.getElementById('tv');
 const filtroPeliculas= document.getElementById('movie')
+const pagina= document.getElementById('populares')
 
 // btn peliculas
 filtroPeliculas.addEventListener('click', async (e)=>{
+    pagina.setAttribute('data-pagina',1);
     e.preventDefault();
     filtrosGeneros('movie');
     const peliculas=await peliculasPopulares('movie');
@@ -22,6 +24,7 @@ filtroPeliculas.addEventListener('click', async (e)=>{
 
 // btn series
 filtroSeriesTv.addEventListener('click',async (e)=>{
+    pagina.setAttribute('data-pagina',1);
     e.preventDefault();
     filtrosGeneros('tv');
 
